@@ -65,24 +65,6 @@ test_round() {
   }
 }
 
-test_round normal
-test_round .dot
-test_round ......dots
-test_round 'spa ce'
-test_round 'per%cent'
-test_round 'back-sl\as/h'
-test_round 'end-with.lock'
-# test_round '@'  # TODO Fix. This broke on recent git version...
-test_round '@{'
-test_round '['
-test_round '-begin-with-minus'
-test_round 'tailing-slash/'
-test_round 'tailing-dots...'
-test_round 'special-char:^[?*'
-test_round 'many////slashes'
-test_round '_under_scores_'
-
-test_round '.str%a\nge...'
 test_round ~'////......s:a^t?r a*n[g@{e.lock'
 
 
