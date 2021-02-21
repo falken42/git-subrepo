@@ -10,14 +10,21 @@ export round=0
 test_round() {
   clone-foo-and-bar
 
+  touch ~/x
+  echo "=================================================" >> ~/x
   round=$(( round + 1 ))
   normalize_dir=$1
+  echo $normalize_dir >> ~/x
   normalize_dir=${normalize_dir#./}
+  echo $normalize_dir >> ~/x
   normalize_dir=${normalize_dir%/}
+  echo $normalize_dir >> ~/x
   while [[ $normalize_dir =~ (//+) ]]; do normalize_dir=${normalize_dir//${BASH_REMATCH[1]}/\/}; done
+  echo $normalize_dir >> ~/x
 
   clone_output=$(
     cd "$OWNER/foo"
+    echo "git subrepo clone $UPSTREAM/bar -- $normalize_dir" >> ~/x
     git subrepo clone "$UPSTREAM/bar" -- "$normalize_dir"
   )
 
@@ -39,6 +46,7 @@ test_round() {
   {
     is "$(
        cd "$OWNER/foo"
+       echo "git subrepo pull -- $normalize_dir" >> ~/x
        git subrepo pull -- "$normalize_dir"
        )" \
        "Subrepo '$normalize_dir' pulled from '$UPSTREAM/bar' (master)." \
@@ -58,6 +66,7 @@ test_round() {
   {
     is "$(
        cd "$OWNER/foo"
+       echo "git subrepo push -- $normalize_dir" >> ~/x
        git subrepo push -- "$normalize_dir"
        )" \
        "Subrepo '$normalize_dir' pushed to '$UPSTREAM/bar' (master)." \
